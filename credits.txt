@@ -1,0 +1,10 @@
+This file is used to track all assets used in game or in the editor that were not created by members of Team 10. Any assets within the project that fall under this category should be noted here when they're added.
+
+
+InControl
+An input manager for Unity that tames the cross-platform controller beast.
+https://github.com/pbhogan/InControl
+
+Unity3D Rainbow Folders
+This asset allows you to set custom icons for any folder in unity project browser.
+https://github.com/PhannGor/unity3d-rainbow-folders
