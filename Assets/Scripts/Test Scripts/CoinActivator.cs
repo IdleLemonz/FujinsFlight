@@ -6,23 +6,25 @@ public class CoinActivator : MonoBehaviour
 {
 	public float activationRadius = 500;
 
-	private List<GameObject> m_coins;
+	private List<GameObject> m_coins;  
+    private List<RotateObject> coinRotates;
 
-	// Use this for initialization
-	void Start () 
-	{
-		OrbInfo[] orbs = FindObjectsOfType<OrbInfo>();
+    // Use this for initialization
+    void Start () 
+	{        
+        OrbInfo[] orbs = FindObjectsOfType<OrbInfo>();
 		m_coins = new List<GameObject>();
+        coinRotates = new List<RotateObject>();        
 
-		// List of all coins gathered when game loads
-		foreach (OrbInfo orb in orbs)
-		{
-			m_coins.Add(orb.gameObject);
-			orb.GetComponent<RotateObject>().enabled = false;
-		}
+        for (int i = 0; i < orbs.Length; i++)
+        {
+            m_coins.Add(orbs[i].gameObject);
+            coinRotates.Add(m_coins[i].gameObject.transform.GetChild(0).GetComponent<RotateObject>());
+            coinRotates[i].enabled = false;
+        }
 
-		StartCoroutine(CheckCoins());
-	}
+        StartCoroutine(CheckCoins());
+    }
 	
 	// Update is called once per frame
 	void Update () 
@@ -34,34 +36,32 @@ public class CoinActivator : MonoBehaviour
 		float radius2 = activationRadius * activationRadius;
 
 		while(true)
-		{
-			int i = 0;
-			foreach (GameObject coin in m_coins)
-			{
-				if (coin == null) continue;
+		{			
+            for (int i = 0; i < m_coins.Count; i++)
+            {
+                if (m_coins[i] == null) continue;
 
-				Vector3 diff = transform.position - coin.transform.position;
-				float distSquared = diff.x * diff.x + diff.y * diff.y + diff.z * diff.z;
+                Vector3 diff = transform.position - m_coins[i].transform.position;
+                float distSquared = diff.x * diff.x + diff.y * diff.y + diff.z * diff.z;
 
-				if (distSquared < radius2)
-				{
-					if (coin.GetComponent<RotateObject>().enabled == false)
-					{
-						coin.GetComponent<RotateObject>().enabled = true;
-					}
-				}
-				else
-				{
-					if (coin.GetComponent<RotateObject>().enabled == true)
-					{
-						coin.GetComponent<RotateObject>().enabled = false;
-					}
-				}
+                if (distSquared < radius2)
+                {                    
+                    if (coinRotates[i].enabled == false)
+                    {
+                        coinRotates[i].enabled = true;
+                    }
+                }
+                else
+                {                    
+                    if (coinRotates[i].enabled == true)
+                    {
+                        coinRotates[i].enabled = false;
+                    }
+                }     
+            }
 
-				i++;
-			}
-
-			yield return new WaitForEndOfFrame();
-		}
+            //yield return new WaitForEndOfFrame();
+            yield return new WaitForSeconds(1);
+        }
 	}
 }

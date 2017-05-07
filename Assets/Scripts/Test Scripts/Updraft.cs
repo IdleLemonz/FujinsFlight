@@ -36,7 +36,11 @@ public class Updraft : MonoBehaviour
     void OnTriggerStay(Collider col)
     {    
 		inWind = IN_WIND.IN;
+
+        // Replace get component ???
         gc = col.GetComponent<GlideController>();
+
+
         if (gc != null)
         {
 			if(forceApplication == FORCE_APPLICATION.INSTANT)
