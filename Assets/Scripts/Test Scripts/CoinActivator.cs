@@ -4,7 +4,8 @@ using System.Collections;
 
 public class CoinActivator : MonoBehaviour 
 {
-	public float activationRadius = 500;
+    [Tooltip("The distance you want to activate coins in.")]
+    public float activationRadius = 500;
 
 	private List<GameObject> m_coins;  
     private List<RotateObject> coinRotates;
@@ -19,7 +20,7 @@ public class CoinActivator : MonoBehaviour
         for (int i = 0; i < orbs.Length; i++)
         {
             m_coins.Add(orbs[i].gameObject);
-            coinRotates.Add(m_coins[i].gameObject.transform.GetChild(0).GetComponent<RotateObject>());
+            coinRotates.Add(m_coins[i].GetComponent<RotateObject>());
             coinRotates[i].enabled = false;
         }
 
